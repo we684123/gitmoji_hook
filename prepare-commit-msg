@@ -3,9 +3,24 @@
 commit_msg_file="$1"
 commit_source="$2"
 
+echo "\$3: $3"
+
 if [ "$commit_source" = "merge" ]; then
     target_branch=$(git rev-parse --abbrev-ref HEAD)
-    source_branch=$(git log -1 --merges --pretty=format:"%s" | awk '{print $2}' | tr -d "'")
-    echo "🔀 Merge branch '$source_branch' into $target_branch" > "$commit_msg_file"
-fi
+    parent_commits=$(git show -s --pretty=%P HEAD)
 
+    echo "target_branch: $target_branch"
+    echo "parent_commits: $parent_commits"
+    
+    source_commits=$(echo $parent_commits | awk '{print $2}')
+    echo "source_commits: $source_commits"
+
+    parent_branch=$(git show-branch -a 2>/dev/null | grep '\*' | grep -v "$(git rev-parse --abbrev-ref HEAD)" | head -n1 | sed 's/.*\[//; s/\].*//; s/[\^~][0-9]*//g')
+    echo "parent_branch: $parent_branch"
+
+    if [ -n "$parent_branch" ]; then
+        echo "🔀 Merge branch '$parent_branch' into $target_branch" > "$commit_msg_file"
+    else
+        echo "source_commits is empty, skip commit message modification"
+    fi
+fi
