@@ -1,0 +1,11 @@
+#!/bin/sh
+
+commit_msg_file="$1"
+commit_source="$2"
+
+if [ "$commit_source" = "merge" ]; then
+    target_branch=$(git rev-parse --abbrev-ref HEAD)
+    source_branch=$(git log -1 --merges --pretty=format:"%s" | awk '{print $2}' | tr -d "'")
+    echo "🔀 Merge branch '$source_branch' into $target_branch" > "$commit_msg_file"
+fi
+
