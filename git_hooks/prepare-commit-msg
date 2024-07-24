@@ -3,7 +3,10 @@
 commit_msg_file="$1"
 commit_source="$2"
 
+echo "commit_msg_file: $commit_msg_file"
+echo "commit_source: $commit_source"
 echo "\$3: $3"
+echo
 
 if [ "$commit_source" = "merge" ]; then
     target_branch=$(git rev-parse --abbrev-ref HEAD)
