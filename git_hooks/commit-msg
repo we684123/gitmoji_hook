@@ -1,0 +1,35 @@
+#!/bin/sh
+
+commit_msg_file="$1"
+commit_source="$2"
+
+# Debug 輸出
+echo "commit-msg hook triggered"
+echo "commit_msg_file: $commit_msg_file"
+echo "commit_source: $commit_source"
+echo "\$3: $3"
+echo
+
+# 檢查是否為合併 commit
+if [ "$commit_source" = "merge" ]; then
+    target_branch=$(git symbolic-ref --short HEAD)
+
+    # 使用 git log 獲取 parent commit 的 hash
+    parent_commits=$(git log -1 --pretty=%P)
+    echo "parent_commits: $parent_commits"
+
+    # 提取第二個 parent commit 作為來源分支的 commit
+    source_commits=$(echo $parent_commits | awk '{print $2}')
+    echo "source_commits: $source_commits"
+
+    # 獲取來源分支名稱
+    parent_branch=$(git branch --contains "$source_commits" | grep -v HEAD | head -n1 | xargs)
+    echo "parent_branch: $parent_branch"
+
+    # 修改 commit 訊息
+    if [ -n "$parent_branch" ]; then
+        echo "🔀 Merge branch '$parent_branch' into $target_branch" > "$commit_msg_file"
+    else
+        echo "Failed to determine source branch. Skipping commit message modification."
+    fi
+fi
