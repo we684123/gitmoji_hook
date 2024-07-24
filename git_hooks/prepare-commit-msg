@@ -1,36 +1,26 @@
 #!/bin/sh
+# This hook customizes the commit message for merge commits.
 
-commit_msg_file="$1"
-commit_source="$2"
+MERGE_MSG=$1
 
-echo "commit_msg_file: $commit_msg_file"
-echo "commit_source: $commit_source"
-echo "\$3: $3"
+echo "MERGE_MSG file path: $MERGE_MSG"
+echo "Current content of MERGE_MSG:"
 echo
+cat "$MERGE_MSG"
+echo "-------------------"
 
-if [ "$commit_source" = "merge" ]; then
-    target_branch=$(git rev-parse --abbrev-ref HEAD)
-    parent_commits=$(git show -s --pretty=%P HEAD)
+# Read the content of MERGE_MSG into a variable
+CURRENT_MSG=$(cat "$MERGE_MSG")
 
-    echo "target_branch: $target_branch"
-    echo "parent_commits: $parent_commits"
-    
-    source_commits=$(echo $parent_commits | awk '{print $2}')
-    echo "source_commits: $source_commits"
+# Check if the message starts with "Merge branch"
+if echo "$CURRENT_MSG" | grep -q "^Merge branch"; then
+    # Prepend the emoji to the merge message
+    NEW_MSG="🔀 $CURRENT_MSG"
+    echo "$NEW_MSG" > "$MERGE_MSG"
 
-    # Get all branches with their last commit
-    while IFS=' ' read -r commit_hash branch_name; do
-        if [ "$commit_hash" = "$source_commits" ]; then
-            parent_branch=$(echo "$branch_name" | sed 's|refs/heads/||')
-            break
-        fi
-    done <<< $(git show-ref --heads)
-
-    echo "parent_branch: $parent_branch"
-
-    if [ -n "$parent_branch" ]; then
-        echo "🔀 Merge branch '$parent_branch' into $target_branch" > "$commit_msg_file"
-    else
-        echo "source_commits is empty, skip commit message modification"
-    fi
+    echo "Modified commit message:"
+    cat "$MERGE_MSG"
+    echo "-------------------"
+else
+    echo "The commit message does not start with 'Merge branch'. No changes made."
 fi
