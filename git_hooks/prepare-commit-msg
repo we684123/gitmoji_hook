@@ -18,7 +18,14 @@ if [ "$commit_source" = "merge" ]; then
     source_commits=$(echo $parent_commits | awk '{print $2}')
     echo "source_commits: $source_commits"
 
-    parent_branch=$(git show-branch -a 2>/dev/null | grep '\*' | grep -v "$(git rev-parse --abbrev-ref HEAD)" | head -n1 | sed 's/.*\[//; s/\].*//; s/[\^~][0-9]*//g')
+    # Get all branches with their last commit
+    while IFS=' ' read -r commit_hash branch_name; do
+        if [ "$commit_hash" = "$source_commits" ]; then
+            parent_branch=$(echo "$branch_name" | sed 's|refs/heads/||')
+            break
+        fi
+    done <<< $(git show-ref --heads)
+
     echo "parent_branch: $parent_branch"
 
     if [ -n "$parent_branch" ]; then
