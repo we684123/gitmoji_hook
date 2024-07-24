@@ -11,12 +11,14 @@ Git hook with [Gitmoji](https://gitmoji.dev/)
 
 ## features
 
-1. change merge commit message to gitmoji style  
+
+1. change merge commit message to gitmoji style
+   ![2024-07-25 00_23_32-2024-07-24 23_51_41-Greenshot png](https://github.com/user-attachments/assets/81d864ee-8adf-419b-8819-dab368f91882)
 2. ~~check commit message with gitmoji style~~ (not yet)
 
 ## install by file
 
-copy this repo `./git_hooks/*`(or choose u need) to you repo folder `.git/hooks/` and make it executable.
+copy this repo `./git_hooks/*` (or choose u need) to you repo folder `.git/hooks/` and make it executable.
 
 ## install by [pre-commit](https://pre-commit.com/)
 
