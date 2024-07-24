@@ -1,35 +1,26 @@
 #!/bin/sh
+# This hook customizes the commit message for merge commits.
 
-commit_msg_file="$1"
-commit_source="$2"
+MERGE_MSG=$1
 
-# Debug 輸出
-echo "commit-msg hook triggered"
-echo "commit_msg_file: $commit_msg_file"
-echo "commit_source: $commit_source"
-echo "\$3: $3"
+echo "MERGE_MSG file path: $MERGE_MSG"
+echo "Current content of MERGE_MSG:"
 echo
+cat "$MERGE_MSG"
+echo "-------------------"
 
-# 檢查是否為合併 commit
-if [ "$commit_source" = "merge" ]; then
-    target_branch=$(git symbolic-ref --short HEAD)
+# Read the content of MERGE_MSG into a variable
+CURRENT_MSG=$(cat "$MERGE_MSG")
 
-    # 使用 git log 獲取 parent commit 的 hash
-    parent_commits=$(git log -1 --pretty=%P)
-    echo "parent_commits: $parent_commits"
+# Check if the message starts with "Merge branch"
+if echo "$CURRENT_MSG" | grep -q "^Merge branch"; then
+    # Prepend the emoji to the merge message
+    NEW_MSG="🔀 $CURRENT_MSG"
+    echo "$NEW_MSG" > "$MERGE_MSG"
 
-    # 提取第二個 parent commit 作為來源分支的 commit
-    source_commits=$(echo $parent_commits | awk '{print $2}')
-    echo "source_commits: $source_commits"
-
-    # 獲取來源分支名稱
-    parent_branch=$(git branch --contains "$source_commits" | grep -v HEAD | head -n1 | xargs)
-    echo "parent_branch: $parent_branch"
-
-    # 修改 commit 訊息
-    if [ -n "$parent_branch" ]; then
-        echo "🔀 Merge branch '$parent_branch' into $target_branch" > "$commit_msg_file"
-    else
-        echo "Failed to determine source branch. Skipping commit message modification."
-    fi
+    echo "Modified commit message:"
+    cat "$MERGE_MSG"
+    echo "-------------------"
+else
+    echo "The commit message does not start with 'Merge branch'. No changes made."
 fi
