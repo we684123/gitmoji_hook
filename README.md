@@ -1,16 +1,10 @@
 # gitmoji_hook
 
-<p align="left">
-    <a href="https://gitmoji.dev">
-        <img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square"
-             alt="Gitmoji">
-    </a>
-</p>
+[![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square)](https://gitmoji.dev)
 
 Git hook with [Gitmoji](https://gitmoji.dev/)
 
 ## features
-
 
 1. change merge commit message to gitmoji style
    ![2024-07-25 00_23_32-2024-07-24 23_51_41-Greenshot png](https://github.com/user-attachments/assets/81d864ee-8adf-419b-8819-dab368f91882)
