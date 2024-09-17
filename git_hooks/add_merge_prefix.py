@@ -25,9 +25,9 @@ def is_merging() -> bool:
 def add_merge_prefix(commit_msg_file: str) -> None:
     # 檢查是否處於合併衝突狀態
     print("ℹ️ Checking for merge conflict...")
-    if is_merging():
-        print("ℹ️ Merge conflict detected, skipping commit message modification.")
-        return
+    # if is_merging():
+    #     print("ℹ️ Merge conflict detected, skipping commit message modification.")
+    #     return
 
     # 讀取 commit 訊息檔案的路徑
     commit_msg_path = Path(commit_msg_file)
