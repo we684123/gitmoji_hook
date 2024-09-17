@@ -26,7 +26,9 @@ def add_merge_prefix(commit_msg_file: str) -> None:
     # 檢查是否處於合併衝突狀態
     print("ℹ️ Checking for merge conflict...")
     # if is_merging():
-    #     print("ℹ️ Merge conflict detected, skipping commit message modification.")
+    #     # 直接寫入 MERGE_MSG 檔案，修改 commit 訊息在開頭加上 "🔀 "
+    #     with open(commit_msg_file, "w", encoding="utf-8") as f:
+    #         f.write("🔀 Merge conflict\n")
     #     return
 
     # 讀取 commit 訊息檔案的路徑
@@ -34,6 +36,7 @@ def add_merge_prefix(commit_msg_file: str) -> None:
 
     try:
         commit_msg = commit_msg_path.read_text(encoding="utf-8")
+        print(f"ℹ️ Original commit message: {commit_msg}")
     except FileNotFoundError:
         print(f"ℹ️ Error: Commit message file '{commit_msg_file}' not found.", file=sys.stderr)
         sys.exit(1)
