@@ -49,8 +49,6 @@ def add_merge_prefix(commit_msg_file: str) -> None:
         print(new_commit_msg)  # 顯示修改後的 commit 訊息
     else:
         print("ℹ️ No modifications made to commit message.")
-        if is_merging():
-            sys.exit(1)
 
 
 if __name__ == "__main__":
@@ -63,3 +61,5 @@ if __name__ == "__main__":
     print(f"ℹ️ Commit message file path: {commit_msg_file}")  # 調試訊息
 
     add_merge_prefix(commit_msg_file)
+    if is_merging():
+        sys.exit(1)
