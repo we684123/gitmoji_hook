@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "gitmoji-hook"
+version = "0.1.0"
+description = ""
+authors = ["we684123 <we684123@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.11.2"
+ruff = "0.6.5"
+pre-commit = "^3.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+requires-python = ">=3.10" # pyupgrade 會自動檢查版本並修正 code
+
+[tool.ruff]
+# https://docs.astral.sh/ruff/settings/#top-level
+exclude = ["**/.venv/"]
+line-length = 120
+
+[tool.ruff.lint]
+# https://docs.astral.sh/ruff/rules/
+ignore = [
+  "TRY003", # 避免錯誤訊息文字過長
+]
+select = [
+  "N", # pep8-naming
+  "E", # pycodestyle errors
+  "W", # pycodestyle warnings
+  "UP", # pyupgrade
+  "F", # pyflakes
+  "I", # isort
+  "PL", # Pylint
+  "TRY", # tryceratops
+]
+
+[tool.ruff.format]
+# https://docs.astral.sh/ruff/settings/#format
+quote-style = "double"
+
+
+[tool.mypy]
+strict = true # 啟動嚴格模式
+
+disallow_untyped_calls = true # 當呼叫沒有型態註解的函數或方法時產生錯誤
+disallow_untyped_defs = true # 當定義函數或方法沒有型態註解時產生錯誤
+disallow_incomplete_defs = true # 當函數或方法的型態註解不完整時產生錯誤
+check_untyped_defs = true # 當函數或方法的型態註解不完整時產生錯誤
+warn_return_any = true # 當函數或方法的回傳型態註解為 Any 時產生警告
