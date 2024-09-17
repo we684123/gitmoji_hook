@@ -10,3 +10,12 @@ repos:
       - id: check-toml
       - id: check-yaml
       - id: end-of-file-fixer
+
+  - repo: local
+    hooks:
+      - id: gitmoji-merge-commit-msg
+        name: Gitmoji Merge Commit Message Modifier
+        description: This hook automatically prepends the 🔀 emoji to merge commit messages to comply with gitmoji standards.
+        entry: python git_hooks/add_merge_prefix.py
+        language: python
+        stages: [prepare-commit-msg]
