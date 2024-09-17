@@ -35,10 +35,6 @@ def add_merge_prefix(commit_msg_file: str) -> None:
     else:
         print("ℹ️  No modifications made to commit message.")
 
-    if commit_msg == "error":
-        sys.stderr.write("ℹ️ Error: Commit message file '{commit_msg_file}' not found.\n")
-        sys.exit(1)
-
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:  # noqa: PLR2004
@@ -50,3 +46,4 @@ if __name__ == "__main__":
     print(f"ℹ️  Commit message file path: {commit_msg_file}")  # 調試訊息
 
     add_merge_prefix(commit_msg_file)
+    sys.exit(1)
