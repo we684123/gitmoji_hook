@@ -1,0 +1,19 @@
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit",
+        "source.organizeImports": "explicit"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+    "[toml]": {
+        "editor.formatOnSave": false
+    },
+    "ruff.configuration": "${workspaceFolder}/pyproject.toml",
+    "mypy.dmypyExecutable": "${workspaceFolder}/.venv/Scripts/dmypy.exe",
+    "mypy.configFile": "./pyproject.toml",
+    "cSpell.words": [
+        "NOSONAR"
+    ]
+}
