@@ -2,5 +2,5 @@
   name: Gitmoji Merge Commit Message Modifier
   description: This hook automatically prepends the 🔀 emoji to merge commit messages to comply with gitmoji standards.
   entry: git_hooks/add_merge_prefix.py
-  language: script
+  language: python
   stages: [prepare-commit-msg]
