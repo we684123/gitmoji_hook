@@ -27,7 +27,7 @@ copy this repo `./git_hooks/*` (or choose u need) to you repo folder `.git/hooks
     ```yaml
     repos:
     - repo: https://github.com/we684123/gitmoji_hook
-        rev: v0.1.0
+        rev: v0.3.0
         hooks:
         - id: gitmoji-merge-commit-msg
     ```
