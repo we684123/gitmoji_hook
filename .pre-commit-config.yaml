@@ -11,11 +11,9 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
 
-  - repo: local
+  # Consume this hook from its published repository, just like downstream users.
+  # The release tag is updated when a new hook version is published.
+  - repo: https://github.com/we684123/gitmoji_hook
+    rev: v0.2.0
     hooks:
       - id: gitmoji-merge-commit-msg
-        name: Gitmoji Merge Commit Message Modifier
-        description: This hook automatically prepends the 🔀 emoji to merge commit messages to comply with gitmoji standards.
-        entry: git_hooks/prepare-commit-msg
-        language: script
-        stages: [prepare-commit-msg]
