@@ -4,36 +4,55 @@
 
 Git hook with [Gitmoji](https://gitmoji.dev/)
 
-## features
+## Features
 
-1. change merge commit message to gitmoji style
+1. Change merge commit messages to Gitmoji style.
    ![2024-07-25 00_23_32-2024-07-24 23_51_41-Greenshot png](https://github.com/user-attachments/assets/81d864ee-8adf-419b-8819-dab368f91882)
-2. ~~check commit message with gitmoji style~~ (not yet)
+2. The hook uses only the shell already expected by `language: script`; it does not install a hook-specific runtime or package.
 
-## install by file
+## Remote installation with pre-commit
 
-copy this repo `./git_hooks/*` (or choose u need) to you repo folder `.git/hooks/` and make it executable.
+Install `pre-commit` once if it is not already available. Then add this repository as a normal remote hook in your project's `.pre-commit-config.yaml`:
 
-## install by [pre-commit](https://pre-commit.com/)
+```yaml
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.md$
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
 
-1. make sure you have pre-commit installed
+  - repo: https://github.com/we684123/gitmoji_hook
+    rev: v0.2.0
+    hooks:
+      - id: gitmoji-merge-commit-msg
+```
 
-    ```bash
-    pip install pre-commit
-    ```
+Install the `prepare-commit-msg` hook type and then commit normally:
 
-2. add or update you `.pre-commit-config.yaml` to you repo root folder
+```bash
+pre-commit install --hook-type prepare-commit-msg
+```
 
-    ```yaml
-    repos:
-    - repo: https://github.com/we684123/gitmoji_hook
-        rev: v0.1.0
-        hooks:
-        - id: gitmoji-merge-commit-msg
-    ```
+The `🔀` Gitmoji is added when Git generates a merge message beginning with `Merge branch`. This follows the Gitmoji convention for merging branches; see [gitmoji.dev](https://gitmoji.dev/).
 
-3. install gitmoji_hook
+## Local verification
 
-    ```bash
-    pre-commit install --hook-type prepare-commit-msg
-    ```
+To verify the online hook in a fresh repository:
+
+```bash
+git init
+pre-commit install --hook-type prepare-commit-msg
+git checkout -b feature
+git checkout main
+git merge --no-ff feature
+git log -1 --format=%s
+```
+
+The final subject should begin with `🔀 Merge branch`.
